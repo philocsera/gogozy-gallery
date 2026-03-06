@@ -355,7 +355,6 @@ body.light .toggle-knob {
     font-size: 0.9rem;
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
-    break-inside: avoid;
 }
 .load-more-btn:hover { background: var(--bg-input); border-color: var(--accent); color: var(--accent); }
 .go-upload { color: var(--accent); text-decoration: none; font-size: 0.9rem; }

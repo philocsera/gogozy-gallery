@@ -164,9 +164,11 @@ function getFilteredImages() {
 }
 
 function renderGallery() {
-    const gallery = document.getElementById('gallery');
-    const empty   = document.getElementById('gallery-empty');
-    gallery.innerHTML = '';
+    const gallery      = document.getElementById('gallery');
+    const loadMoreWrap = document.getElementById('load-more-wrap');
+    const empty        = document.getElementById('gallery-empty');
+    gallery.innerHTML      = '';
+    loadMoreWrap.innerHTML = '';
 
     const filtered = getFilteredImages();
     const toShow   = filtered.slice(0, displayCount);
@@ -181,7 +183,7 @@ function renderGallery() {
             displayCount += PAGE_SIZE;
             renderGallery();
         });
-        gallery.appendChild(moreBtn);
+        loadMoreWrap.appendChild(moreBtn);
     }
 
     empty.classList.toggle('visible', filtered.length === 0);

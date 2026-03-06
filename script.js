@@ -27,6 +27,32 @@ let filterTopic = 'all';
 const PAGE_SIZE = 60;
 let displayCount = PAGE_SIZE;
 
+let numCols  = 5;
+let colIndex = 0;
+
+function computeNumCols() {
+    return window.innerWidth < 600 ? 2 : 5;
+}
+
+function createColumns() {
+    const gallery = document.getElementById('gallery');
+    gallery.innerHTML = '';
+    colIndex = 0;
+    for (let i = 0; i < numCols; i++) {
+        const col = document.createElement('div');
+        col.className = 'gallery-col';
+        gallery.appendChild(col);
+    }
+}
+
+function appendToGallery(items) {
+    const cols = document.querySelectorAll('#gallery .gallery-col');
+    items.forEach(img => {
+        cols[colIndex % numCols].appendChild(createGalleryItem(img));
+        colIndex++;
+    });
+}
+
 // 사용자 주제 오버라이드 (localStorage)
 let userTopicOverrides = {};
 
@@ -163,17 +189,19 @@ function getFilteredImages() {
     });
 }
 
-function renderGallery() {
-    const gallery      = document.getElementById('gallery');
+function renderGallery(append = false) {
     const loadMoreWrap = document.getElementById('load-more-wrap');
     const empty        = document.getElementById('gallery-empty');
-    gallery.innerHTML      = '';
+    const filtered     = getFilteredImages();
+
+    if (!append) {
+        createColumns();
+        appendToGallery(filtered.slice(0, displayCount));
+    } else {
+        appendToGallery(filtered.slice(displayCount - PAGE_SIZE, displayCount));
+    }
+
     loadMoreWrap.innerHTML = '';
-
-    const filtered = getFilteredImages();
-    const toShow   = filtered.slice(0, displayCount);
-    toShow.forEach(img => gallery.appendChild(createGalleryItem(img)));
-
     if (filtered.length > displayCount) {
         const remaining = filtered.length - displayCount;
         const moreBtn = document.createElement('button');
@@ -181,7 +209,7 @@ function renderGallery() {
         moreBtn.textContent = `더 보기 (${remaining}장 남음)`;
         moreBtn.addEventListener('click', () => {
             displayCount += PAGE_SIZE;
-            renderGallery();
+            renderGallery(true);
         });
         loadMoreWrap.appendChild(moreBtn);
     }
@@ -329,8 +357,22 @@ document.addEventListener('keydown', (e) => {
 // ─────────────────────────────────────────────
 // Init — metadata.json에서 로드 후 이미지는 lazy load
 // ─────────────────────────────────────────────
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        const n = computeNumCols();
+        if (n !== numCols) {
+            numCols = n;
+            displayCount = PAGE_SIZE;
+            renderGallery();
+        }
+    }, 300);
+});
+
 async function init() {
     const loading = document.getElementById('gallery-loading');
+    numCols = computeNumCols();
     loadUserOverrides();
 
     try {

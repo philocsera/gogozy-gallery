@@ -238,9 +238,17 @@ body.light .toggle-knob {
 }
 
 #gallery {
-    column-width: 220px;
-    column-count: 5;
-    column-gap: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.gallery-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 #load-more-wrap {
@@ -248,8 +256,6 @@ body.light .toggle-knob {
 }
 
 .gallery-item {
-    break-inside: avoid;
-    margin-bottom: 16px;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
@@ -850,7 +856,7 @@ body.light .toggle-knob {
     .filter-bar { padding: 10px 16px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
     .filter-bar::-webkit-scrollbar { display: none; }
     .gallery-wrap { padding: 20px 16px 60px; }
-    #gallery { columns: 140px; }
+    /* #gallery columns handled by JS (numCols) */
     .upload-form, .page-header { padding-left: 16px; padding-right: 16px; }
     .modal-box-wide { width: calc(100vw - 40px); }
 }

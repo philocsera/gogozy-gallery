@@ -238,8 +238,13 @@ body.light .toggle-knob {
 }
 
 #gallery {
-    columns: 220px;
+    column-width: 220px;
+    column-count: 5;
     column-gap: 16px;
+}
+
+#load-more-wrap {
+    padding: 8px 0 16px;
 }
 
 .gallery-item {

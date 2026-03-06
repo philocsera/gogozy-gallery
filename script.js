@@ -160,8 +160,9 @@ function createGalleryItem(image) {
     item.dataset.dbid = image.dbId;
 
     const img = document.createElement('img');
-    img.src = image.src;
-    img.alt = image.name;
+    img.src     = image.src;
+    img.alt     = image.name;
+    img.loading = 'lazy';
 
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
@@ -243,28 +244,28 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ─────────────────────────────────────────────
-// Init — JSON 청크 파일에서 데이터 로드
+// Init — metadata.json에서 로드 후 이미지는 lazy load
 // ─────────────────────────────────────────────
 async function init() {
     const loading = document.getElementById('gallery-loading');
 
     try {
-        const indexRes = await fetch('./data-index.json');
-        if (!indexRes.ok) throw new Error('data-index.json not found');
-        const indexData = await indexRes.json();
+        const res = await fetch('./metadata.json');
+        if (!res.ok) throw new Error('metadata.json not found');
+        const data = await res.json();
 
-        topics = (indexData.topics || []).map((t, i) => ({ id: i + 1, name: t.name }));
+        topics = (data.topics || []).map((t, i) => ({ id: i + 1, name: t.name }));
 
-        let idCounter = 1;
-        for (let i = 0; i < indexData.chunks; i++) {
-            const chunkRes = await fetch(`./data-chunk-${i}.json`);
-            const chunkData = await chunkRes.json();
-            for (const { src, name, year, topic, title } of chunkData.images) {
-                images.push({ dbId: idCounter++, src, name, year: year || '기타', topic: topic || '기타', title: title || '' });
-            }
-            // 청크마다 갤러리 업데이트 (점진적 로딩)
-            renderGallery();
-        }
+        (data.images || []).forEach((img, i) => {
+            images.push({
+                dbId:  i + 1,
+                src:   `./images/${img.file}`,
+                name:  img.file,
+                year:  img.year  || '기타',
+                topic: img.topic || '기타',
+                title: img.title || '',
+            });
+        });
     } catch (e) {
         console.warn('데이터 로드 실패:', e.message);
     }

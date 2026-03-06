@@ -342,6 +342,22 @@ body.light .toggle-knob {
 #gallery-empty { display: none; text-align: center; padding: 80px 0; color: var(--text-dim); }
 #gallery-empty.visible { display: block; }
 #gallery-empty p { margin-bottom: 16px; }
+
+.load-more-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    break-inside: avoid;
+}
+.load-more-btn:hover { background: var(--bg-input); border-color: var(--accent); color: var(--accent); }
 .go-upload { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
 .go-upload:hover { text-decoration: underline; }
 

@@ -24,6 +24,9 @@ let pickingDbId  = null;
 let filterYear  = 'all';
 let filterTopic = 'all';
 
+const PAGE_SIZE = 60;
+let displayCount = PAGE_SIZE;
+
 // 사용자 주제 오버라이드 (localStorage)
 let userTopicOverrides = {};
 
@@ -90,6 +93,7 @@ document.getElementById('year-filter-bar').addEventListener('click', (e) => {
     if (!btn) return;
     filterYear = btn.dataset.year;
     filterTopic = 'all';
+    displayCount = PAGE_SIZE;
     renderGallery();
 });
 
@@ -97,6 +101,7 @@ document.getElementById('topic-filter-bar').addEventListener('click', (e) => {
     const btn = e.target.closest('[data-topic]');
     if (!btn) return;
     filterTopic = btn.dataset.topic;
+    displayCount = PAGE_SIZE;
     renderGallery();
 });
 
@@ -164,7 +169,20 @@ function renderGallery() {
     gallery.innerHTML = '';
 
     const filtered = getFilteredImages();
-    filtered.forEach(img => gallery.appendChild(createGalleryItem(img)));
+    const toShow   = filtered.slice(0, displayCount);
+    toShow.forEach(img => gallery.appendChild(createGalleryItem(img)));
+
+    if (filtered.length > displayCount) {
+        const remaining = filtered.length - displayCount;
+        const moreBtn = document.createElement('button');
+        moreBtn.className = 'load-more-btn';
+        moreBtn.textContent = `더 보기 (${remaining}장 남음)`;
+        moreBtn.addEventListener('click', () => {
+            displayCount += PAGE_SIZE;
+            renderGallery();
+        });
+        gallery.appendChild(moreBtn);
+    }
 
     empty.classList.toggle('visible', filtered.length === 0);
     renderYearFilterBar();

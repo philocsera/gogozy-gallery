@@ -30,6 +30,7 @@ echo "  ✓ metadata.json"
 # images/ 폴더 교체
 rm -rf "$SCRIPT_DIR/images"
 cp -r "$TEMP_DIR/images" "$SCRIPT_DIR/images"
+touch "$SCRIPT_DIR/images/.metadata_never_index"
 IMAGE_COUNT=$(ls "$SCRIPT_DIR/images" | wc -l | tr -d ' ')
 echo "  ✓ images/ ($IMAGE_COUNT 장)"
 

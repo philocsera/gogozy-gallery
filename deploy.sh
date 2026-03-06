@@ -35,6 +35,7 @@ fi
 echo ""
 echo "📦 Git 커밋 & push 중..."
 cd "$SCRIPT_DIR"
+git config http.postBuffer 524288000
 git add data-index.json data-chunk-*.json
 git commit -m "이미지 업데이트 $(date '+%Y-%m-%d %H:%M')"
 git push

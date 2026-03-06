@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>곶곶이</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="splash">
+        <img id="splash-img" src="GOGOZY.jpg" alt="GOGOZY">
+    </div>
+    <nav>
+        <a href="#" class="nav-logo" data-page="home">
+            <img src="GOGOZY.jpg" alt="곶곶이">
+        </a>
+        <div class="nav-right">
+            <div class="toggle-wrap">
+                <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <button id="theme-toggle" class="toggle-switch" aria-label="테마 전환">
+                    <span class="toggle-knob"></span>
+                </button>
+                <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" data-page="home" class="nav-link active">홈</a></li>
+                <li><a href="#" data-page="info" class="nav-link">정보</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 홈 -->
+    <section id="page-home" class="page active">
+        <div id="filters-sticky">
+            <div id="year-filter-bar" class="filter-bar"></div>
+            <div id="topic-filter-bar" class="filter-bar">
+                <button class="pill active" data-topic="all">전체</button>
+            </div>
+        </div>
+        <div class="gallery-wrap">
+            <div id="gallery-loading" class="gallery-loading">
+                <div class="loading-spinner"></div>
+                <p>이미지 불러오는 중...</p>
+            </div>
+            <div id="gallery"></div>
+            <div id="gallery-empty" class="empty-state">
+                <p>표시할 이미지가 없습니다.</p>
+                <p>이미지가 아직 업로드되지 않았습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 정보 -->
+    <section id="page-info" class="page">
+        <div class="page-header"><h2>정보</h2></div>
+        <div class="info-section">
+            <a class="info-card" href="https://www.youtube.com/@%EA%B3%B6%EA%B3%B6%EC%9D%B4" target="_blank" rel="noopener">
+                <div class="info-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </div>
+                <div class="info-card-body">
+                    <span class="info-card-name">유튜브</span>
+                    <span class="info-card-sub">youtube.com/@곶곶이</span>
+                </div>
+                <svg class="info-card-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a class="info-card" href="https://www.sooplive.co.kr/station/ttmdqjarj" target="_blank" rel="noopener">
+                <div class="info-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                </div>
+                <div class="info-card-body">
+                    <span class="info-card-name">SOOP</span>
+                    <span class="info-card-sub">sooplive.co.kr/station/ttmdqjarj</span>
+                </div>
+                <svg class="info-card-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a class="info-card" href="https://cafe.naver.com/gogozy" target="_blank" rel="noopener">
+                <div class="info-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="info-card-body">
+                    <span class="info-card-name">팬카페</span>
+                    <span class="info-card-sub">cafe.naver.com/gogozy</span>
+                </div>
+                <svg class="info-card-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a class="info-card" href="https://artmug.kr/index.php?channel=view&uid=51493" target="_blank" rel="noopener">
+                <div class="info-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                </div>
+                <div class="info-card-body">
+                    <span class="info-card-name">아트머그</span>
+                    <span class="info-card-sub">artmug.kr</span>
+                </div>
+                <svg class="info-card-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a class="info-card" href="https://x.com/gotgozy" target="_blank" rel="noopener">
+                <div class="info-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+                </div>
+                <div class="info-card-body">
+                    <span class="info-card-name">X (Twitter)</span>
+                    <span class="info-card-sub">x.com/gotgozy</span>
+                </div>
+                <svg class="info-card-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="hidden">
+        <button id="lightbox-close">&times;</button>
+        <button id="lightbox-prev">&#8249;</button>
+        <img id="lightbox-img" src="" alt="">
+        <button id="lightbox-next">&#8250;</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

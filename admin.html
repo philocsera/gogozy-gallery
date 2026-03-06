@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOGOZY 관리자</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">관리자</div>
+        <div class="nav-right">
+            <div class="toggle-wrap">
+                <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <button id="theme-toggle" class="toggle-switch" aria-label="테마 전환">
+                    <span class="toggle-knob"></span>
+                </button>
+                <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" data-page="gallery" class="nav-link active">갤러리</a></li>
+                <li><a href="#" data-page="upload" class="nav-link">업로드</a></li>
+                <li><a href="#" data-page="manage" class="nav-link">관리</a></li>
+            </ul>
+            <a href="index.html" class="nav-site-link">← 사이트 보기</a>
+        </div>
+    </nav>
+
+    <!-- 갤러리 -->
+    <section id="page-gallery" class="page active">
+        <div id="filters-sticky">
+            <div id="year-filter-bar" class="filter-bar"></div>
+            <div id="topic-filter-bar" class="filter-bar"></div>
+        </div>
+        <div class="gallery-wrap">
+            <div id="gallery-loading" class="gallery-loading">
+                <div class="loading-spinner"></div>
+                <p>이미지 불러오는 중...</p>
+            </div>
+            <div id="gallery"></div>
+            <div id="gallery-empty" class="empty-state">
+                <p>표시할 이미지가 없습니다.</p>
+                <a href="#" data-page="upload" class="go-upload">업로드 하러 가기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 업로드 -->
+    <section id="page-upload" class="page">
+        <div class="page-header"><h2>업로드</h2></div>
+        <div class="upload-form">
+            <div class="upload-field">
+                <label class="field-label">연도 <span class="required">*</span></label>
+                <div class="pill-group" id="upload-year-pills">
+                    <button class="pill" data-upload-year="2022">2022</button>
+                    <button class="pill" data-upload-year="2023">2023</button>
+                    <button class="pill" data-upload-year="2024">2024</button>
+                    <button class="pill" data-upload-year="2025">2025</button>
+                    <button class="pill" data-upload-year="2026">2026</button>
+                </div>
+            </div>
+            <div class="upload-field">
+                <label class="field-label">주제 <span class="required">*</span></label>
+                <div class="pill-group" id="upload-topic-pills"></div>
+            </div>
+            <div class="upload-field">
+                <label class="field-label">제목</label>
+                <input type="text" id="upload-title" placeholder="제목 (선택)" maxlength="100" class="text-input">
+            </div>
+            <div class="upload-field">
+                <label class="field-label">이미지</label>
+                <div id="drop-zone">
+                    <div class="drop-zone-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <p>이미지를 드래그해서 놓거나</p>
+                        <label for="file-input" class="file-label">파일 선택</label>
+                        <input type="file" id="file-input" accept="image/*" multiple hidden>
+                        <p class="hint">PNG, JPG, GIF, WEBP 지원</p>
+                    </div>
+                </div>
+                <div id="staged-preview"></div>
+            </div>
+            <button id="upload-btn" disabled>업로드</button>
+        </div>
+    </section>
+
+    <!-- 관리 -->
+    <section id="page-manage" class="page">
+        <div class="page-header"><h2>관리</h2></div>
+        <div class="manage-section">
+            <h3 class="manage-title">주제 순서</h3>
+            <p class="manage-desc">드래그해서 주제 순서를 변경할 수 있습니다.</p>
+            <ul id="topic-order-list" class="topic-order-list"></ul>
+
+            <div class="manage-divider"></div>
+
+            <h3 class="manage-title">데이터 백업</h3>
+            <div class="backup-rows">
+                <div class="backup-row">
+                    <div class="backup-info">
+                        <span class="backup-label">내보내기</span>
+                        <span class="backup-hint">이미지·주제를 JSON 파일로 저장합니다.</span>
+                    </div>
+                    <button id="export-btn" class="btn-primary">내보내기</button>
+                </div>
+                <div class="backup-row">
+                    <div class="backup-info">
+                        <span class="backup-label">불러오기</span>
+                        <span class="backup-hint">백업 파일을 불러와 DB를 복원합니다. 기존 데이터는 삭제됩니다.</span>
+                    </div>
+                    <label for="import-file" class="btn-secondary import-label">불러오기</label>
+                    <input type="file" id="import-file" accept=".json" hidden>
+                </div>
+                <div id="import-progress" class="import-progress hidden">
+                    <div class="import-bar-wrap"><div id="import-bar" class="import-bar"></div></div>
+                    <span id="import-status">불러오는 중...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="hidden">
+        <button id="lightbox-close">&times;</button>
+        <button id="lightbox-prev">&#8249;</button>
+        <img id="lightbox-img" src="" alt="">
+        <button id="lightbox-next">&#8250;</button>
+    </div>
+
+    <!-- 주제 수정/삭제 모달 -->
+    <div id="topic-manage-modal" class="modal hidden">
+        <div class="modal-box">
+            <h3>주제 관리</h3>
+            <input type="text" id="topic-manage-input" placeholder="주제 이름" maxlength="20">
+            <div class="modal-actions">
+                <button id="topic-manage-delete" class="btn-danger">삭제</button>
+                <div style="flex:1"></div>
+                <button id="topic-manage-cancel" class="btn-secondary">취소</button>
+                <button id="topic-manage-confirm" class="btn-primary">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 이미지 수정 모달 -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-box modal-box-wide">
+            <h3>이미지 수정</h3>
+            <div class="edit-field">
+                <label class="field-label">제목</label>
+                <input type="text" id="edit-title" placeholder="제목" maxlength="100">
+            </div>
+            <div class="edit-field">
+                <label class="field-label">연도</label>
+                <div class="pill-group" id="edit-year-pills">
+                    <button class="pill" data-edit-year="2022">2022</button>
+                    <button class="pill" data-edit-year="2023">2023</button>
+                    <button class="pill" data-edit-year="2024">2024</button>
+                    <button class="pill" data-edit-year="2025">2025</button>
+                    <button class="pill" data-edit-year="2026">2026</button>
+                </div>
+            </div>
+            <div class="edit-field">
+                <label class="field-label">주제</label>
+                <div class="pill-group" id="edit-topic-pills"></div>
+            </div>
+            <div class="modal-actions">
+                <button id="edit-cancel" class="btn-secondary">취소</button>
+                <button id="edit-confirm" class="btn-primary">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 주제 추가 모달 -->
+    <div id="topic-modal" class="modal hidden">
+        <div class="modal-box">
+            <h3>주제 추가</h3>
+            <input type="text" id="topic-input" placeholder="새 주제 이름" maxlength="20">
+            <div class="modal-actions">
+                <button id="topic-cancel" class="btn-secondary">취소</button>
+                <button id="topic-confirm" class="btn-primary">추가</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

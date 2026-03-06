@@ -19,9 +19,26 @@ function getSortedTopics() {
 let images       = [];
 let topics       = [];
 let lightboxDbId = null;
+let pickingDbId  = null;
 
 let filterYear  = 'all';
 let filterTopic = 'all';
+
+// 사용자 주제 오버라이드 (localStorage)
+let userTopicOverrides = {};
+
+function loadUserOverrides() {
+    try { userTopicOverrides = JSON.parse(localStorage.getItem('userTopicOverrides') || '{}'); }
+    catch { userTopicOverrides = {}; }
+}
+
+function saveUserOverrides() {
+    localStorage.setItem('userTopicOverrides', JSON.stringify(userTopicOverrides));
+}
+
+function getEffectiveTopic(image) {
+    return userTopicOverrides[image.dbId] || image.topic;
+}
 
 // ─────────────────────────────────────────────
 // Theme toggle
@@ -107,7 +124,7 @@ function renderYearFilterBar() {
 
 function renderTopicFilterBar() {
     const bar = document.getElementById('topic-filter-bar');
-    const usedTopicNames = new Set(images.map(img => img.topic));
+    const usedTopicNames = new Set(images.map(img => getEffectiveTopic(img)));
     const displayTopics = getSortedTopics().filter(t => usedTopicNames.has(t.name));
 
     bar.innerHTML = '';
@@ -135,8 +152,8 @@ function renderTopicFilterBar() {
 // ─────────────────────────────────────────────
 function getFilteredImages() {
     return images.filter(img => {
-        const yearOk  = filterYear  === 'all' || img.year  === filterYear;
-        const topicOk = filterTopic === 'all' || img.topic === filterTopic;
+        const yearOk  = filterYear  === 'all' || img.year === filterYear;
+        const topicOk = filterTopic === 'all' || getEffectiveTopic(img) === filterTopic;
         return yearOk && topicOk;
     });
 }
@@ -170,9 +187,11 @@ function createGalleryItem(image) {
     const meta = document.createElement('div');
     meta.className = 'overlay-meta';
 
+    const effectiveTopic = getEffectiveTopic(image);
+
     const tags = document.createElement('div');
     tags.className = 'overlay-tags';
-    [image.year, image.topic].forEach(text => {
+    [image.year, effectiveTopic].forEach(text => {
         const tag = document.createElement('span');
         tag.className = 'overlay-tag';
         tag.textContent = text;
@@ -188,6 +207,14 @@ function createGalleryItem(image) {
     viewBtn.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(image.dbId); });
 
     btns.appendChild(viewBtn);
+
+    if (effectiveTopic === '미분류') {
+        const pickBtn = document.createElement('button');
+        pickBtn.title = '주제 지정';
+        pickBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`;
+        pickBtn.addEventListener('click', (e) => { e.stopPropagation(); openTopicPickModal(image.dbId); });
+        btns.appendChild(pickBtn);
+    }
     meta.appendChild(tags);
     meta.appendChild(btns);
     overlay.appendChild(meta);
@@ -204,6 +231,42 @@ function createGalleryItem(image) {
     item.addEventListener('click', () => openLightbox(image.dbId));
     return item;
 }
+
+// ─────────────────────────────────────────────
+// 미분류 주제 지정 모달
+// ─────────────────────────────────────────────
+function openTopicPickModal(dbId) {
+    pickingDbId = dbId;
+    const container = document.getElementById('topic-pick-pills');
+    container.innerHTML = '';
+
+    getSortedTopics()
+        .filter(t => t.name !== '미분류')
+        .forEach(t => {
+            const btn = document.createElement('button');
+            btn.className = 'pill';
+            btn.textContent = t.name;
+            btn.addEventListener('click', () => {
+                userTopicOverrides[pickingDbId] = t.name;
+                saveUserOverrides();
+                closeTopicPickModal();
+                renderGallery();
+            });
+            container.appendChild(btn);
+        });
+
+    document.getElementById('topic-pick-modal').classList.remove('hidden');
+}
+
+function closeTopicPickModal() {
+    document.getElementById('topic-pick-modal').classList.add('hidden');
+    pickingDbId = null;
+}
+
+document.getElementById('topic-pick-cancel').addEventListener('click', closeTopicPickModal);
+document.getElementById('topic-pick-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('topic-pick-modal')) closeTopicPickModal();
+});
 
 // ─────────────────────────────────────────────
 // Lightbox
@@ -248,6 +311,7 @@ document.addEventListener('keydown', (e) => {
 // ─────────────────────────────────────────────
 async function init() {
     const loading = document.getElementById('gallery-loading');
+    loadUserOverrides();
 
     try {
         const res = await fetch('./metadata.json');
